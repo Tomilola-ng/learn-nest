@@ -53,14 +53,14 @@ export class UsersService {
   }
 
   update(id: number, updatedUser: UserType) {
-    const user = this.findOne(id);
-    if (user) {
-      const updateUser = { ...user, ...updatedUser };
-      this.users.push(updateUser);
-      return updateUser;
-    } else {
-      return { error: "not found" };
-    }
+    this.users = this.users.map((user) => {
+      if (user.id === id) {
+        return { ...user, ...updatedUser };
+      }
+      return user;
+    });
+
+    return this.findOne(id);
   }
 
   delete(id: number) {
